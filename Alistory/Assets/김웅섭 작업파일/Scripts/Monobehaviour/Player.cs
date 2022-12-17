@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     [SerializeField] public bool canInteract;
     [Header("Hiding")]
     [SerializeField] public bool isHiding;
+    [Header("Item")]
+    [SerializeField] public List<GameObject> items = new List<GameObject>();
 
     Rigidbody2D rb;
     SpriteRenderer sr;
@@ -58,7 +60,7 @@ public class Player : MonoBehaviour
             {
                 var sortInteractableObjs = 
                     from obj in interactObjects
-                    orderby Vector2.Distance((Vector2)transform.position, (Vector2)obj.transform.position)
+                    orderby Mathf.Abs(transform.position.x - obj.transform.position.x)
                     select obj;
                 
                 interactObjects = sortInteractableObjs.ToArray();
@@ -71,14 +73,16 @@ public class Player : MonoBehaviour
             }
             else
             {
-
+                InteractUI.ControlUI(false);
             }
         }
         else
         {
-
+            InteractUI.ControlUI(false);
         }
     }
+
+    public void GetItem(GameObject item) => items.Add(item);
 
     private void OnDrawGizmos() 
     {
