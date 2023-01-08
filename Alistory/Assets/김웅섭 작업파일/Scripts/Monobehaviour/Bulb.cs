@@ -11,7 +11,8 @@ public class Bulb : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        isLighting = !isLighting;
+        if(Boss.BossDisplayed) ExplainUI.AddExplain("켜지지 않는다.", 1.5f, 1);
+        else isLighting = !isLighting;
     }
 
     public void ShowUI()
@@ -26,6 +27,7 @@ public class Bulb : MonoBehaviour, IInteractable
 
     private void Update() 
     {
+        if(Boss.BossDisplayed) isLighting = false;
         sr.sprite = onOffSprite[isLighting ? 0 : 1];
     }
 }

@@ -12,7 +12,7 @@ public class Closet : MonoBehaviour, IInteractable
     {
         if(containItems.Count <= 0)
         {
-            ExplainUI.ShowExplain("비어있다.", 2);
+            ExplainUI.AddExplain("비어있다.", 1.5f, 1);
             return;
         }
 
@@ -20,7 +20,7 @@ public class Closet : MonoBehaviour, IInteractable
             from item in containItems
             select item.name;
         
-        ExplainUI.ShowExplain($"{string.Join(',', itemNames)} 을(를) 얻었다.", 2);
+        ExplainUI.AddExplain($"{string.Join(',', itemNames)} 을(를) 얻었다.", 1.5f, 1);
         foreach(var item in containItems)
         {
             item.transform.SetParent(Player.currentPlayer.transform.Find("Items").transform);

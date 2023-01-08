@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
+    private bool isBossWasShowed = false;
+
+    private void Update() 
+    {
+        if(Boss.BossDisplayed) isBossWasShowed = true;    
+    }
+
     public void Interact()
     {
-        Player.currentPlayer.canInteract = false;
-        Player.currentPlayer.canMove = false;
+        if (!isBossWasShowed) ExplainUI.AddExplain("열리지 않는다.", 1.5f, 1);
+        else
+        {
+            Player.currentPlayer.canInteract = false;
+            Player.currentPlayer.canMove = false;
 
-        StartCoroutine(HidingAnimation());
+            StartCoroutine(HidingAnimation());
+        }
     }
 
     IEnumerator HidingAnimation()
@@ -32,6 +43,9 @@ public class Door : MonoBehaviour, IInteractable
 
     public void ShowUI()
     {
-        InteractUI.ControlUI(true, transform.position + Vector3.right * 1.5f, Player.currentPlayer.isHiding ? "나가기" : "숨기");
+        if(isBossWasShowed) 
+            InteractUI.ControlUI(true, transform.position + Vector3.right * 1.5f, Player.currentPlayer.isHiding ? "나가기" : "숨기");
+        else 
+            InteractUI.ControlUI(true, transform.position + Vector3.right * 1.5f, "열기");
     }
 }
